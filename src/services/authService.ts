@@ -1,3 +1,4 @@
+// authService.ts
 export const login = async (
   email: string,
   password: string,
@@ -7,10 +8,10 @@ export const login = async (
     (resolve) => {
       setTimeout(() => {
         if (email === "test@tentwenty.com" && password === "123456") {
-          const token = "dummy-token";
-          sessionStorage.setItem("token", token);
+          const token = Math.random().toString(36).substring(2); // 🔐 Random dummy token
+          localStorage.setItem("token", token); // 👉 Use localStorage instead of sessionStorage
 
-          // ✅ Save credentials if Remember me is checked
+          // Save credentials if Remember Me is checked
           if (remember) {
             localStorage.setItem(
               "credentials",
@@ -34,11 +35,10 @@ export const getSavedCredentials = () => {
   return creds ? JSON.parse(creds) : null;
 };
 
-
 export const isAuthenticated = () => {
-  return !!sessionStorage.getItem("token");
+  return !!localStorage.getItem("token");
 };
 
 export const logout = () => {
-  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
 };
